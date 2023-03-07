@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+  @apply m-0 p-0 scroll-smooth font-sans
+}
+
+body {
+  background: #c3c3c3;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container-with-nav{
+  @apply w-full h-[calc(100vh-80px)] p-4 bg-transparent
+}
+.container-without-nav{
+  @apply w-full h-[100vh] bg-transparent border-b-2 border-solid border-primaryDark
+}
+
+.teste h1{
+  @apply w-full text-3xl font-bold text-primaryDark border-b-2 border-primaryDark
+}
+
+input[type="radio"] + label span {
+  transform: bg-2
+}
+
+input[type="radio"] + label span:hover,
+input[type="radio"] + label:hover span{
+transform: scale(1.2);
+} 
+
+input[type="radio"]:checked + label span {
+background-color: #CD48FF; 
+box-shadow: 0px 0px 0px 2px white inset;
+}
+
+input[type="radio"]:checked + label{
+ color: #CD48FF; 
+}
+
+.outline-title-1 {
+  font-family: sans-serif;
+     color: white;
+     text-shadow:
+         1px 1px 0 #000,
+       -1px -1px 0 #000,  
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+         1px 1px 0 #000;
+}
+.outline-title-2 {
+  font-family: sans-serif;
+     color: white;
+     text-shadow:
+         2px 2px 0 #000,
+       -2px -2px 0 #000,  
+        2px -2px 0 #000,
+        -2px 2px 0 #000,
+         2px 2px 0 #000;
+}
+.outline-title-3 {
+  font-family: sans-serif;
+     color: white;
+     text-shadow:
+         3px 3px 0 #000,
+       -3px -3px 0 #000,  
+        3px -3px 0 #000,
+        -3px 3px 0 #000,
+         3px 3px 0 #000;
+}
+
+.form{
+  @apply py-8
+}
+
+.form label{
+  @apply block py-2
+}
+
+.form input{
+  @apply w-full border border-gray-100 p-2 mb-1 rounded-md
+}
+
+.error-text{
+  @apply text-red-600 text-sm py-1;
+}
