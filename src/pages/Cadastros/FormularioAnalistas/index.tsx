@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Button } from "../../../components/Button";
 import { Nav } from "../../../components/Nav";
@@ -12,7 +13,9 @@ export function FormularioAnalistas(){
   const methods = useForm<IAnalistasForm>({resolver:analistasResolver()});
   const {formState:{errors},register,handleSubmit} = methods;
   
-  function onSubmit(values:IAnalistasForm){
+  const navigate = useNavigate();
+
+  async function onSubmit(values:IAnalistasForm){
     const analistasFakeRepository = new AnalistasFakeRepository();
         
     const newAnalista={
@@ -22,7 +25,10 @@ export function FormularioAnalistas(){
       email:values.email,
     }
 
-    analistasFakeRepository.create(newAnalista);
+    await analistasFakeRepository.create(newAnalista);
+
+    navigate('/lista-analistas');
+    alert("Analista cadastrado com sucesso!");
   }
 
   return(
@@ -60,7 +66,7 @@ export function FormularioAnalistas(){
             )}
 
           </div>
-          <Button type="submit" variant="dark">Enviar</Button>
+          <Button type="submit" variant="dark">Finalizar Cadastro</Button>
         </form>
     </section>
     </>

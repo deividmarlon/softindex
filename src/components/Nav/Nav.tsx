@@ -33,7 +33,7 @@ export function Nav({stick}:Props){
             <NavButton variant="dark">Softwares</NavButton>
           </Link>
           <Link to="/lista-analistas">
-            <NavButton variant="light">Analistas</NavButton>
+            <NavButton variant="dark">Analistas</NavButton>
           </Link>                    
           <Link to="/lista-empresas-clientes">
             <NavButton>Empresas Clientes</NavButton>

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Button } from "../../../components/Button";
 import { Nav } from "../../../components/Nav";
@@ -12,7 +13,9 @@ export function FormularioEmpresasClientes(){
   const methods = useForm<IEmpresasClientesForm>({resolver:empresasClientesResolver()});
   const {formState:{errors},register,handleSubmit} = methods;
   
-  function onSubmit(values:IEmpresasClientesForm){
+  const navigate = useNavigate();
+
+  async function onSubmit(values:IEmpresasClientesForm){
     const empresasClientesFakeRepository = new EmpresasClientesFakeRepository();
         
     const newEmpresa={
@@ -30,7 +33,10 @@ export function FormularioEmpresasClientes(){
       }
     }
 
-    empresasClientesFakeRepository.create(newEmpresa);
+    await empresasClientesFakeRepository.create(newEmpresa);
+
+    navigate('/lista-empresas-clientes');
+    alert("Empresa Cliente cadastrada com sucesso!");
   }
 
   return(
@@ -146,7 +152,7 @@ export function FormularioEmpresasClientes(){
               <p className="error-text">{errors?.emailRepresentante?.message}</p>
             )}
           </div>   
-          <Button type="submit" variant="dark">Enviar</Button>
+          <Button type="submit" variant="dark">Finalizar Cadastro</Button>
         </form>
     </section>
     </>

@@ -3,7 +3,7 @@ import {useLocation} from 'react-router-dom';
 import { Button } from "../../../components/Button";
 import { Nav } from "../../../components/Nav";
 import { ISoftware, ITecnologia, IVersao, IAnalista, IEmpresaCliente, IChamado} from "../../../interfaces";
-import { ModalMultipleChoseEmpresaCliente, ModalChoseAnalista, ModalChoseEmpresaCliente } from "../../../components/Modal"
+import { ModalMultipleChoseEmpresaCliente, ModalChoseAnalista, ModalChoseEmpresaCliente, ModalChoseSomething } from "../../../components/Modal"
 import SoftwaresFakeRepository from "../../../repositories/SoftwaresFakeRepository";
 
 type ModalSelectAnalistaProps = {
@@ -11,6 +11,14 @@ type ModalSelectAnalistaProps = {
   setChoice: (choice:IAnalista,idVers:number)=>void;
   choiceId: number;
   parentId: number;
+}
+
+type ModalSelectVersStatusProps = {
+  setModalOn: React.Dispatch<React.SetStateAction<boolean>>;
+  setChoice: (choice:string,idVers:number)=>void;
+  thingChosed: string;
+  parentId: number;
+  options: string[];
 }
 
 type ModalSelectSolicitanteProps = {
@@ -25,6 +33,22 @@ type ModalSelectResponsavelProps = {
   setChoice: (choice:IAnalista,idCall:number)=>void;
   choiceId: number;
   parentId: number;
+}
+
+type ModalSelectCallTipoProps = {
+  setModalOn: React.Dispatch<React.SetStateAction<boolean>>;
+  setChoice: (choice:string,idVers:number)=>void;
+  thingChosed: string;
+  parentId: number;
+  options: string[];
+}
+
+type ModalSelectCallStatusProps = {
+  setModalOn: React.Dispatch<React.SetStateAction<boolean>>;
+  setChoice: (choice:string,idVers:number)=>void;
+  thingChosed: string;
+  parentId: number;
+  options: string[];
 }
 
 export function DetalhesSoftware(){
@@ -55,6 +79,10 @@ export function DetalhesSoftware(){
   
   const [modalSelectAnalistaProps,setModalSelectAnalistaProps] = useState<ModalSelectAnalistaProps>({} as ModalSelectAnalistaProps);
 
+  const [modalOnChoseVersStatus,setModalOnChoseVersStatus] = useState(false);
+  
+  const [modalSelectVersStatusProps,setModalSelectVersStatusProps] = useState<ModalSelectVersStatusProps>({} as ModalSelectVersStatusProps);
+
   const [modalOnChoseSolicitante,setModalOnChoseSolicitante] = useState(false);
   
   const [modalSelectSolicitanteProps,setModalSelectSolicitanteProps] = useState<ModalSelectSolicitanteProps>({} as ModalSelectSolicitanteProps);
@@ -62,6 +90,14 @@ export function DetalhesSoftware(){
   const [modalOnChoseResponsavel,setModalOnChoseResponsavel] = useState(false);
   
   const [modalSelectResponsavelProps,setModalSelectResponsavelProps] = useState<ModalSelectResponsavelProps>({} as ModalSelectResponsavelProps);
+
+  const [modalOnChoseCallStatus,setModalOnChoseCallStatus] = useState(false);
+  
+  const [modalSelectCallStatusProps,setModalSelectCallStatusProps] = useState<ModalSelectCallStatusProps>({} as ModalSelectCallStatusProps);
+
+  const [modalOnChoseCallTipo,setModalOnChoseCallTipo] = useState(false);
+  
+  const [modalSelectCallTipoProps,setModalSelectCallTipoProps] = useState<ModalSelectCallTipoProps>({} as ModalSelectCallTipoProps);
 
   function handleSubmit(){
     const softwaresFakeRepository = new SoftwaresFakeRepository();
@@ -124,6 +160,75 @@ export function DetalhesSoftware(){
       }
     );
     setModalOnChoseAnalista(true);
+  }
+
+  const handleSelectVersStatus = (status:string,idVers:number) =>{
+    setModalSelectVersStatusProps(
+      {
+        setModalOn: setModalOnChoseVersStatus,
+        setChoice: (choice,idVers) => {
+          setVers(
+            vers.map(item=>{
+              if (item.id === idVers) {
+                return { ...item, status:choice };
+              } else {
+                return item;
+              }
+            })
+          )
+        }, 
+        parentId: idVers, 
+        thingChosed:status,
+        options:["Disponível","Em Desenvolvimento", "Fora de Uso"]
+      }
+    );
+    setModalOnChoseVersStatus(true);
+  }
+
+  const handleSelectCallStatus = (status:string,idCall:number) =>{
+    setModalSelectCallStatusProps(
+      {
+        setModalOn: setModalOnChoseCallStatus,
+        setChoice: (choice,idCall) => {
+          setCalls(
+            calls.map(item=>{
+              if (item.id === idCall) {
+                return { ...item, status:choice };
+              } else {
+                return item;
+              }
+            })
+          )
+        }, 
+        parentId: idCall, 
+        thingChosed:status,
+        options:["Realizado","Em Desenvolvimento", "Cancelado"]
+      }
+    );
+    setModalOnChoseCallStatus(true);
+  }
+
+  const handleSelectCallTipo = (status:string,idCall:number) =>{
+    setModalSelectCallTipoProps(
+      {
+        setModalOn: setModalOnChoseCallTipo,
+        setChoice: (choice,idCall) => {
+          setCalls(
+            calls.map(item=>{
+              if (item.id === idCall) {
+                return { ...item, tipo:choice };
+              } else {
+                return item;
+              }
+            })
+          )
+        }, 
+        parentId: idCall, 
+        thingChosed:status,
+        options:["Erro","Evolução de Funcionalidade", "Adaptativa"]
+      }
+    );
+    setModalOnChoseCallTipo(true);
   }
 
   const handleSelectSolicitante = (idSolicitante:number, idCall:number) =>{
@@ -241,10 +346,13 @@ export function DetalhesSoftware(){
       <Nav stick={true}/>
       {modalOnChoseEmpresaCliente && <ModalMultipleChoseEmpresaCliente setModalOn={setModalOnChoseEmpresaCliente} setChoices={setEmpresasClientesChoicesToState} choices={software.empresasClientes}/>}
       {modalOnChoseAnalista && <ModalChoseAnalista setModalOn={modalSelectAnalistaProps.setModalOn} setChoice={modalSelectAnalistaProps.setChoice} choiceId={modalSelectAnalistaProps.choiceId} parentId={modalSelectAnalistaProps.parentId}/>}
+      {modalOnChoseVersStatus && <ModalChoseSomething setModalOn={modalSelectVersStatusProps.setModalOn} setChoice={modalSelectVersStatusProps.setChoice} thingChosed={modalSelectVersStatusProps.thingChosed} parentId={modalSelectVersStatusProps.parentId} options={modalSelectVersStatusProps.options}/>}
       {modalOnChoseSolicitante && <ModalChoseEmpresaCliente setModalOn={modalSelectSolicitanteProps.setModalOn} setChoice={modalSelectSolicitanteProps.setChoice} choiceId={modalSelectSolicitanteProps.choiceId} parentId={modalSelectSolicitanteProps.parentId}/>}
       {modalOnChoseResponsavel && <ModalChoseAnalista setModalOn={modalSelectResponsavelProps.setModalOn} setChoice={modalSelectResponsavelProps.setChoice} choiceId={modalSelectResponsavelProps.choiceId} parentId={modalSelectResponsavelProps.parentId}/>}
+      {modalOnChoseCallStatus && <ModalChoseSomething setModalOn={modalSelectCallStatusProps.setModalOn} setChoice={modalSelectCallStatusProps.setChoice} thingChosed={modalSelectCallStatusProps.thingChosed} parentId={modalSelectCallStatusProps.parentId} options={modalSelectCallStatusProps.options}/>}
+      {modalOnChoseCallTipo && <ModalChoseSomething setModalOn={modalSelectCallTipoProps.setModalOn} setChoice={modalSelectCallTipoProps.setChoice} thingChosed={modalSelectCallTipoProps.thingChosed} parentId={modalSelectCallTipoProps.parentId} options={modalSelectCallTipoProps.options}/>}
       <section className="container-with-nav">
-        <h1 className="text-white outline-title-3 font-medium text-7xl w-full text-center">Detalhes de Software</h1>
+        <h1 className="text-white outline-title-3 font-medium text-7xl w-full text-center">Cadastro de Software</h1>
         <form 
           className="form w-full flex flex-col justify-center items-center gap-4" onSubmit={()=>{}}
         >
@@ -253,16 +361,16 @@ export function DetalhesSoftware(){
             <div className="flex flex-1 gap-2 border-2 border-solid border-primaryDark rounded-md p-2 my-2">
               <div className="flex flex-col flex-1">
                 <label htmlFor="nome">Nome:</label>
-                <input name="nome" type="text" value={software.nome} onChange={(e)=>{setSoftware({...software,nome:e.target.value})}}/>
+                <input name="nome" type="text" onChange={(e)=>{setSoftware({...software,nome:e.target.value})}}/>
                 <p className="error-text">{"teste"}</p>
               </div>
               <div className="flex flex-col flex-1">
                 <label htmlFor="sigla">Sigla:</label>
-                <input name="sigla"  type="text" value={software.sigla} onChange={(e)=>{setSoftware({...software,sigla:e.target.value})}}/>
+                <input name="sigla"  type="text" onChange={(e)=>{setSoftware({...software,sigla:e.target.value})}}/>
               </div>
               <div className="flex flex-col flex-1">
                 <label htmlFor="objetivo">Objetivo:</label>
-                <input name="objetivo" type="text" value={software.objetivo} onChange={(e)=>{setSoftware({...software,objetivo:e.target.value})}}/>
+                <input name="objetivo" type="text" onChange={(e)=>{setSoftware({...software,objetivo:e.target.value})}}/>
               </div>
             </div>
             
@@ -276,7 +384,7 @@ export function DetalhesSoftware(){
               <div className="flex w-full gap-2 border-2 border-solid border-primaryDark rounded-md p-2 my-2" key={tec.id}>
                 <div className="flex flex-col flex-1">
                   <label htmlFor={`nometec${tec.id}`}>Nome:</label>
-                  <input name={`nometec${tec.id}`} value={tec.nome} type="text" 
+                  <input name={`nometec${tec.id}`} type="text" 
                     onChange={(e)=>setTecs(tecs.map(item=>{
                       if (item.id === tec.id) {
                         return { ...item, nome:e.target.value };
@@ -288,7 +396,7 @@ export function DetalhesSoftware(){
                 </div>
                 <div className="flex flex-col flex-1">
                   <label htmlFor={`objtec${tec.id}`}>Objetivo:</label>
-                  <input name={`objtec${tec.id}`} value={tec.objetivo} type="text" 
+                  <input name={`objtec${tec.id}`} type="text" 
                     onChange={(e)=>setTecs(tecs.map(item=>{
                       if (item.id === tec.id) {
                         return { ...item, objetivo:e.target.value };
@@ -311,7 +419,7 @@ export function DetalhesSoftware(){
               <div className="flex w-full gap-2 border-2 border-solid border-primaryDark rounded-md p-2 my-2" key={version.id}>
                 <div className="flex flex-col flex-1">
                   <label htmlFor={`dataversion${version.id}`}>Data:</label>
-                  <input name={`dataversion${version.id}`} value={version.data} type="text" 
+                  <input name={`dataversion${version.id}`} type="text" 
                     onChange={(e)=>setVers(vers.map(item=>{
                       if (item.id === version.id) {
                         return { ...item, data:e.target.value };
@@ -323,7 +431,7 @@ export function DetalhesSoftware(){
                 </div>
                 <div className="flex flex-col flex-1">
                   <label htmlFor={`objversion${version.id}`}>Versão:</label>
-                  <input name={`objversion${version.id}`} value={version.versao} type="text" 
+                  <input name={`objversion${version.id}`} type="text" 
                     onChange={(e)=>setVers(vers.map(item=>{
                       if (item.id === version.id) {
                         return { ...item, versao:e.target.value };
@@ -345,19 +453,19 @@ export function DetalhesSoftware(){
                     : 
                       <button type="button" onClick={()=>{handleSelectAnalista(version.responsavel.id,version.id)}} className="flex items-center justify-center h-full mb-1 border-0  bg-black px-2 rounded-md ml-2 text-white font-bold">Selecionar</button>
                   }             
-
                 </div>  
                 <div className="flex flex-col flex-1">
                   <label htmlFor={`statusversion${version.id}`}>Status:</label>
-                  <input name={`statusversion${version.id}`} value={version.status} type="text" 
-                    onChange={(e)=>setVers(vers.map(item=>{
-                      if (item.id === version.id) {
-                        return { ...item, status:e.target.value };
-                      } else {
-                        return item;
-                      }
-                    }))}                    
-                  />
+                  {
+                    version.status.length 
+                    ?   
+                    <div className="flex flex-col flex-1">
+                      <input name={`statusversion${version.id}`} value={version.status} type="text" disabled/>
+                      <button type="button" onClick={()=>{handleSelectVersStatus(version.status,version.id)}} className="flex items-center justify-center h-full mb-1 border-0  bg-black px-2 rounded-md ml-2 text-white font-bold">Selecionar</button>
+                    </div>
+                    : 
+                      <button type="button" onClick={()=>{handleSelectVersStatus(version.status,version.id)}} className="flex items-center justify-center h-full mb-1 border-0  bg-black px-2 rounded-md ml-2 text-white font-bold">Selecionar</button>
+                  }  
                 </div>              
               </div>
             ))}
@@ -403,7 +511,7 @@ export function DetalhesSoftware(){
                   </div>
                   <div className="flex flex-col flex-1">
                     <label htmlFor={`calldata${chamado.dataAbertura}`}>Data:</label>
-                    <input name={`calldata${chamado.dataAbertura}`} value={chamado.dataAbertura} type="text"
+                    <input name={`calldata${chamado.dataAbertura}`} type="text"
                       onChange={(e)=>setCalls(calls.map(item=>{
                         if (item.id === chamado.id) {
                           return { ...item, dataAbertura:e.target.value };
@@ -443,7 +551,7 @@ export function DetalhesSoftware(){
                 <div className="flex flex-1 gap-2">
                   <div className="flex flex-col flex-1">
                     <label htmlFor={`calldescricao${chamado.id}`}>Descrição:</label>
-                    <input name={`calldescricao${chamado.id}`} type="text" value={chamado.descricao}
+                    <input name={`calldescricao${chamado.id}`} type="text"
                       onChange={(e)=>setCalls(calls.map(item=>{
                         if (item.id === chamado.id) {
                           return { ...item, descricao:e.target.value };
@@ -455,33 +563,35 @@ export function DetalhesSoftware(){
                   </div> 
                   <div className="flex flex-col flex-1">
                     <label htmlFor={`calltipo${chamado.id}`}>Tipo:</label>
-                    <input name={`calltipo${chamado.id}`} type="text" value={chamado.tipo}
-                      onChange={(e)=>setCalls(calls.map(item=>{
-                        if (item.id === chamado.id) {
-                          return { ...item, tipo:e.target.value };
-                        } else {
-                          return item;
-                        }
-                      }))}                     
-                    />
+                    {
+                      chamado.tipo.length 
+                      ?   
+                      <div className="flex flex-col flex-1">
+                        <input name={`calltipo${chamado.id}`} value={chamado.tipo} type="text" disabled/>
+                        <button type="button" onClick={()=>{handleSelectCallTipo(chamado.tipo,chamado.id)}} className="flex items-center justify-center h-full mb-1 border-0  bg-black px-2 rounded-md ml-2 text-white font-bold">Selecionar</button>
+                      </div>
+                      : 
+                        <button type="button" onClick={()=>{handleSelectCallTipo(chamado.tipo,chamado.id)}} className="flex items-center justify-center h-full mb-1 border-0  bg-black px-2 rounded-md ml-2 text-white font-bold">Selecionar</button>
+                    } 
                   </div> 
                   <div className="flex flex-col flex-1">
                     <label htmlFor={`callstatus${chamado.id}`}>Status:</label>
-                    <input name={`callstatus${chamado.id}`} type="text" value={chamado.status}
-                      onChange={(e)=>setCalls(calls.map(item=>{
-                        if (item.id === chamado.id) {
-                          return { ...item, status:e.target.value };
-                        } else {
-                          return item;
-                        }
-                      }))}                        
-                    />
+                    {
+                      chamado.status.length 
+                      ?   
+                      <div className="flex flex-col flex-1">
+                        <input name={`callstatus${chamado.id}`} value={chamado.status} type="text" disabled/>
+                        <button type="button" onClick={()=>{handleSelectCallStatus(chamado.status,chamado.id)}} className="flex items-center justify-center h-full mb-1 border-0  bg-black px-2 rounded-md ml-2 text-white font-bold">Selecionar</button>
+                      </div>
+                      : 
+                        <button type="button" onClick={()=>{handleSelectCallStatus(chamado.status,chamado.id)}} className="flex items-center justify-center h-full mb-1 border-0  bg-black px-2 rounded-md ml-2 text-white font-bold">Selecionar</button>
+                    }                     
                   </div> 
                 </div>
               </div>
             ))}   
           </div>
-          <Button type="button" onClick={handleSubmit} variant="dark">Enviar</Button>
+          <Button type="button" onClick={handleSubmit} variant="dark">Finalizar Cadastro</Button>
         </form>
     </section>
     </>
