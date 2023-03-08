@@ -593,7 +593,7 @@ export function DetalhesSoftware(){
               </div>
             ))}   
           </div>
-          <Button type="button" onClick={handleSubmit} variant="dark">Finalizar Cadastro</Button>
+          <Button type="button" onClick={handleSubmit} variant="dark">Salvar Alterações</Button>
         </form>
     </section>
     </>
