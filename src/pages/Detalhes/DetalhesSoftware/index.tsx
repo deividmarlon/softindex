@@ -361,16 +361,16 @@ export function DetalhesSoftware(){
             <div className="flex flex-1 gap-2 border-2 border-solid border-primaryDark rounded-md p-2 my-2">
               <div className="flex flex-col flex-1">
                 <label htmlFor="nome">Nome:</label>
-                <input name="nome" type="text" onChange={(e)=>{setSoftware({...software,nome:e.target.value})}}/>
+                <input name="nome" type="text" value={software.nome} onChange={(e)=>{setSoftware({...software,nome:e.target.value})}}/>
                 <p className="error-text">{"teste"}</p>
               </div>
               <div className="flex flex-col flex-1">
                 <label htmlFor="sigla">Sigla:</label>
-                <input name="sigla"  type="text" onChange={(e)=>{setSoftware({...software,sigla:e.target.value})}}/>
+                <input name="sigla"  type="text" value={software.sigla} onChange={(e)=>{setSoftware({...software,sigla:e.target.value})}}/>
               </div>
               <div className="flex flex-col flex-1">
                 <label htmlFor="objetivo">Objetivo:</label>
-                <input name="objetivo" type="text" onChange={(e)=>{setSoftware({...software,objetivo:e.target.value})}}/>
+                <input name="objetivo" type="text" value={software.objetivo} onChange={(e)=>{setSoftware({...software,objetivo:e.target.value})}}/>
               </div>
             </div>
             
@@ -384,7 +384,7 @@ export function DetalhesSoftware(){
               <div className="flex w-full gap-2 border-2 border-solid border-primaryDark rounded-md p-2 my-2" key={tec.id}>
                 <div className="flex flex-col flex-1">
                   <label htmlFor={`nometec${tec.id}`}>Nome:</label>
-                  <input name={`nometec${tec.id}`} type="text" 
+                  <input name={`nometec${tec.id}`} value={tec.nome} type="text" 
                     onChange={(e)=>setTecs(tecs.map(item=>{
                       if (item.id === tec.id) {
                         return { ...item, nome:e.target.value };
@@ -396,7 +396,7 @@ export function DetalhesSoftware(){
                 </div>
                 <div className="flex flex-col flex-1">
                   <label htmlFor={`objtec${tec.id}`}>Objetivo:</label>
-                  <input name={`objtec${tec.id}`} type="text" 
+                  <input name={`objtec${tec.id}`} value={tec.objetivo} type="text" 
                     onChange={(e)=>setTecs(tecs.map(item=>{
                       if (item.id === tec.id) {
                         return { ...item, objetivo:e.target.value };
@@ -419,7 +419,7 @@ export function DetalhesSoftware(){
               <div className="flex w-full gap-2 border-2 border-solid border-primaryDark rounded-md p-2 my-2" key={version.id}>
                 <div className="flex flex-col flex-1">
                   <label htmlFor={`dataversion${version.id}`}>Data:</label>
-                  <input name={`dataversion${version.id}`} type="text" 
+                  <input name={`dataversion${version.id}`} value={version.data} type="text" 
                     onChange={(e)=>setVers(vers.map(item=>{
                       if (item.id === version.id) {
                         return { ...item, data:e.target.value };
@@ -431,7 +431,7 @@ export function DetalhesSoftware(){
                 </div>
                 <div className="flex flex-col flex-1">
                   <label htmlFor={`objversion${version.id}`}>Versão:</label>
-                  <input name={`objversion${version.id}`} type="text" 
+                  <input name={`objversion${version.id}`} value={version.versao} type="text" 
                     onChange={(e)=>setVers(vers.map(item=>{
                       if (item.id === version.id) {
                         return { ...item, versao:e.target.value };
@@ -511,7 +511,7 @@ export function DetalhesSoftware(){
                   </div>
                   <div className="flex flex-col flex-1">
                     <label htmlFor={`calldata${chamado.dataAbertura}`}>Data:</label>
-                    <input name={`calldata${chamado.dataAbertura}`} type="text"
+                    <input name={`calldata${chamado.dataAbertura}`} type="text" value={chamado.dataAbertura}
                       onChange={(e)=>setCalls(calls.map(item=>{
                         if (item.id === chamado.id) {
                           return { ...item, dataAbertura:e.target.value };
@@ -551,7 +551,7 @@ export function DetalhesSoftware(){
                 <div className="flex flex-1 gap-2">
                   <div className="flex flex-col flex-1">
                     <label htmlFor={`calldescricao${chamado.id}`}>Descrição:</label>
-                    <input name={`calldescricao${chamado.id}`} type="text"
+                    <input name={`calldescricao${chamado.id}`} type="text" value={chamado.descricao}
                       onChange={(e)=>setCalls(calls.map(item=>{
                         if (item.id === chamado.id) {
                           return { ...item, descricao:e.target.value };

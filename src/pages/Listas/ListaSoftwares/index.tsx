@@ -31,7 +31,7 @@ export function ListaSoftwares(){
       <section className="container-with-nav bg-cover">
       <div className="w-full h-full flex flex-col items-center justify-center gap-4">
         <div className="w-full flex flex-col justify-center items-center">
-          <h1 className="text-white outline-title-3 font-medium text-7xl m-4">Lista de Empresas Clientes</h1>
+          <h1 className="text-white outline-title-3 font-medium text-7xl m-4">Lista de Softwares</h1>
           <Link to="/cadastro-softwares">
             <Button variant="light">Cadastrar Software</Button>
           </Link>
