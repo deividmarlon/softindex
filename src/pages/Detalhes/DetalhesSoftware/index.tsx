@@ -99,10 +99,12 @@ export function DetalhesSoftware(){
   
   const [modalSelectCallTipoProps,setModalSelectCallTipoProps] = useState<ModalSelectCallTipoProps>({} as ModalSelectCallTipoProps);
 
-  function handleSubmit(){
+  async function handleSubmit(){
     const softwaresFakeRepository = new SoftwaresFakeRepository();
 
-    softwaresFakeRepository.update({id:location.state.id,newData:software});
+    await softwaresFakeRepository.update({id:location.state.id,newData:software});
+  
+    alert("Alterações realizadas com sucesso!");
   }
 
   function handlePlusTec(){

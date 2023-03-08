@@ -30,6 +30,8 @@ export function DetalhesAnalista(){
     }
 
     const updated = await analistasFakeRepository.update({id:location.state.id,newData:editedAnalista});
+  
+    alert("Alterações realizadas com sucesso!");
   }
 
   useEffect(()=>{

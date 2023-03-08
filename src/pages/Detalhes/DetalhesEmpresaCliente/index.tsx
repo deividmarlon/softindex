@@ -38,6 +38,9 @@ export function DetalhesEmpresaCliente(){
     }
 
     const updated = await empresasClientesFakeRepository.update({id:location.state.id,newData:editedEmpresa});
+  
+    alert("Alterações realizadas com sucesso!");
+  
   }
 
   useEffect(()=>{
